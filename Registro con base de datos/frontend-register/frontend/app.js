@@ -267,10 +267,16 @@ function mostrarRegistros(filtro = '') {
             fecha = registro.fecha;
         }
         
+        // Formatear el teléfono si no está en el formato correcto
+        let telefono = registro.telefono;
+        if (!telefono.includes('(')) {
+            telefono = formatearTelefono(telefono);
+        }
+        
         tr.innerHTML = `
             <td>${registro.nombre}</td>
             <td>${registro.email}</td>
-            <td>${registro.telefono}</td>
+            <td>${telefono}</td>
             <td>${fecha}</td>
             <td>
                 <button class="btn-action edit" onclick="editarRegistro(${registro.id})">

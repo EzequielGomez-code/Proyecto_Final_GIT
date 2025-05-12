@@ -114,13 +114,27 @@ input[type="date"] {
 table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 th, td {
     text-align: left;
     padding: 12px;
     border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
+table th:nth-child(1), table td:nth-child(1) { width: 20%; }
+table th:nth-child(2), table td:nth-child(2) { width: 25%; }
+table th:nth-child(3), table td:nth-child(3) { 
+    width: 20%; 
+    white-space: nowrap; 
+    font-family: monospace;
+}
+table th:nth-child(4), table td:nth-child(4) { width: 15%; }
+table th:nth-child(5), table td:nth-child(5) { width: 20%; }
 
 th {
     background-color: #f2f2f2;
