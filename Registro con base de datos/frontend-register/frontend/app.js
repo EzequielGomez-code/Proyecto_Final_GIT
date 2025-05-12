@@ -38,6 +38,8 @@ function obtenerRegistros() {
     } catch (error) {
         console.error('Error:', error);
         mostrarNotificacion('Error al cargar los registros', true);
+        // Inicializar como array vacío en caso de error
+        registros = [];
     }
 }
 
@@ -57,12 +59,23 @@ function guardarRegistro(evento) {
     evento.preventDefault();
     
     // Obtener datos del formulario
-    const formData = new FormData(registroForm);
+    const nombre = document.getElementById('nombre').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const fecha = document.getElementById('fecha').value;
+    
+    // Validar datos
+    if (!nombre || !email || !telefono || !fecha) {
+        mostrarNotificacion('Por favor, complete todos los campos', true);
+        return;
+    }
+    
+    // Crear objeto de registro
     const nuevoRegistro = {
-        nombre: formData.get('nombre'),
-        email: formData.get('email'),
-        telefono: formData.get('telefono'),
-        fecha: formData.get('fecha')
+        nombre,
+        email,
+        telefono,
+        fecha
     };
     
     try {
@@ -73,10 +86,9 @@ function guardarRegistro(evento) {
             const indice = registros.findIndex(reg => reg.id === registroEditando.id);
             
             if (indice !== -1) {
-                registros[indice] = {
-                    ...registros[indice],
-                    ...nuevoRegistro
-                };
+                // Mantener el ID original
+                nuevoRegistro.id = registroEditando.id;
+                registros[indice] = nuevoRegistro;
             }
             
             mensaje = 'Registro actualizado correctamente';
@@ -89,20 +101,18 @@ function guardarRegistro(evento) {
         }
         
         // Guardar en localStorage
-        if (guardarDatos()) {
-            // Resetear formulario y estado
-            registroForm.reset();
-            registroEditando = null;
-            
-            // Cambiar texto del botón de vuelta a "Guardar"
-            document.querySelector('.btn-primary').innerHTML = '<i class="fas fa-save"></i> Guardar';
-            
-            // Actualizar lista de registros
-            mostrarRegistros();
-            mostrarNotificacion(mensaje);
-        } else {
-            throw new Error('Error al guardar el registro');
-        }
+        guardarDatos();
+        
+        // Resetear formulario y estado
+        registroForm.reset();
+        registroEditando = null;
+        
+        // Cambiar texto del botón de vuelta a "Guardar"
+        document.querySelector('.btn-primary').innerHTML = '<i class="fas fa-save"></i> Guardar';
+        
+        // Actualizar lista de registros
+        mostrarRegistros();
+        mostrarNotificacion(mensaje);
     } catch (error) {
         console.error('Error:', error);
         mostrarNotificacion('Error al guardar el registro', true);
@@ -117,13 +127,11 @@ function eliminarRegistro(id) {
             registros = registros.filter(reg => reg.id !== id);
             
             // Guardar en localStorage
-            if (guardarDatos()) {
-                // Actualizar lista de registros
-                mostrarRegistros();
-                mostrarNotificacion('Registro eliminado correctamente');
-            } else {
-                throw new Error('Error al eliminar el registro');
-            }
+            guardarDatos();
+            
+            // Actualizar lista de registros
+            mostrarRegistros();
+            mostrarNotificacion('Registro eliminado correctamente');
         } catch (error) {
             console.error('Error:', error);
             mostrarNotificacion('Error al eliminar el registro', true);
