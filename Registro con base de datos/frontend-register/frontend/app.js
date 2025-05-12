@@ -243,6 +243,25 @@ function editarRegistro(id) {
     document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
 }
 
+// Función para formatear fecha al formato DD/MM/YYYY más legible
+function formatearFecha(fechaStr) {
+    if (!fechaStr) return '';
+    
+    try {
+        const fecha = new Date(fechaStr);
+        if (isNaN(fecha.getTime())) return fechaStr; // Si la fecha no es válida, retornar el string original
+        
+        const dia = fecha.getDate().toString().padStart(2, '0');
+        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+        const año = fecha.getFullYear();
+        
+        return `${dia}/${mes}/${año}`;
+    } catch (e) {
+        console.error('Error al formatear fecha:', e);
+        return fechaStr; // En caso de error, retornar el string original
+    }
+}
+
 // Función para mostrar registros en la tabla
 function mostrarRegistros(filtro = '') {
     const tbody = tablaRegistros.querySelector('tbody');
@@ -269,12 +288,7 @@ function mostrarRegistros(filtro = '') {
         const tr = document.createElement('tr');
         
         // Formatear fecha para mostrarla mejor
-        let fecha;
-        try {
-            fecha = new Date(registro.fecha).toLocaleDateString();
-        } catch (e) {
-            fecha = registro.fecha;
-        }
+        let fecha = formatearFecha(registro.fecha);
         
         // Formatear el teléfono para asegurar que esté en formato correcto
         let telefono = registro.telefono;
@@ -300,6 +314,7 @@ function mostrarRegistros(filtro = '') {
         // Celda de fecha
         const tdFecha = document.createElement('td');
         tdFecha.textContent = fecha;
+        tdFecha.style.whiteSpace = 'nowrap';
         tr.appendChild(tdFecha);
         
         // Celda de acciones

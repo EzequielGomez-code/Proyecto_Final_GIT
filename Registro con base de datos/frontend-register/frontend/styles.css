@@ -116,6 +116,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
+    min-width: 800px;
 }
 
 th, td {
@@ -128,9 +129,9 @@ th, td {
 }
 
 table th:nth-child(1), table td:nth-child(1) { width: 18%; }
-table th:nth-child(2), table td:nth-child(2) { width: 25%; }
+table th:nth-child(2), table td:nth-child(2) { width: 27%; }
 table th:nth-child(3), table td:nth-child(3) { 
-    width: 22%; 
+    width: 18%; 
     white-space: nowrap !important; 
     font-family: monospace;
     overflow: visible !important;
@@ -140,8 +141,15 @@ table th:nth-child(3), table td:nth-child(3) {
     max-width: none !important;
     min-width: 140px !important;
 }
-table th:nth-child(4), table td:nth-child(4) { width: 15%; }
-table th:nth-child(5), table td:nth-child(5) { width: 20%; }
+table th:nth-child(4), table td:nth-child(4) { 
+    width: 17%; 
+    white-space: nowrap !important;
+    min-width: 110px !important;
+}
+table th:nth-child(5), table td:nth-child(5) { 
+    width: 15%; 
+    min-width: 100px !important;
+}
 
 th {
     background-color: #f2f2f2;
@@ -150,6 +158,11 @@ th {
 
 tbody tr:hover {
     background-color: #f9f9f9;
+}
+
+td:nth-child(4) {
+    white-space: nowrap !important;
+    overflow: visible !important;
 }
 
 td:nth-child(3) {
@@ -214,9 +227,19 @@ td:nth-child(3) {
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+    main {
+        grid-template-columns: 1fr 1.3fr;
+    }
+}
+
 @media (max-width: 992px) {
     main {
         grid-template-columns: 1fr 1.2fr;
+    }
+    
+    table {
+        min-width: 700px;
     }
 }
 
@@ -239,10 +262,11 @@ td:nth-child(3) {
     
     .table-container {
         overflow-x: auto;
+        padding: 15px 10px;
     }
     
     table {
-        min-width: 600px;
+        min-width: 650px;
     }
     
     th, td {
