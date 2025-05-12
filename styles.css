@@ -128,7 +128,8 @@ nav {
     transition: transform 0.3s ease;
 }
 
-.dropdown:hover .fa-chevron-down {
+.dropdown:hover .fa-chevron-down,
+.dropdown.active .fa-chevron-down {
     transform: rotate(180deg);
 }
 
@@ -149,7 +150,8 @@ nav {
     list-style: none;
 }
 
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdown-menu,
+.dropdown.active .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);

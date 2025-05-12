@@ -23,16 +23,22 @@ document.addEventListener('DOMContentLoaded', function() {
         window.scrollTo(0, 0);
     });
 
-    // Dropdown menu for mobile
+    // Dropdown menu functionality
     const dropdownToggle = document.querySelector('.dropdown-toggle');
     const dropdown = document.querySelector('.dropdown');
     
-    if (window.innerWidth <= 768) {
-        dropdownToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            dropdown.classList.toggle('active');
-        });
-    }
+    // Add click event for all screen sizes
+    dropdownToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle('active');
+    });
+    
+    // Add event listener to close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
 
     // Project navigation
     const navLinks = document.querySelectorAll('.nav-menu a[data-project], .dropdown-menu a[data-project], .footer-links a');
