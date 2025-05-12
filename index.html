@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyectos de Laboratorio de Lenguaje</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo" id="logo-home">
+                <span class="logo-icon"><i class="fas fa-code"></i></span>
+                <h1>Lab. Lenguaje</h1>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#" class="active" data-project="home"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-folder"></i> Proyectos <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" data-project="etiquetas-html"><i class="fas fa-tags"></i> 102 Etiquetas HTML</a></li>
+                            <li><a href="#" data-project="graficos"><i class="fas fa-chart-bar"></i> Gráficos Hotel</a></li>
+                            <li><a href="#" data-project="algoritmo-cedula"><i class="fas fa-id-card"></i> Algoritmo Cédula</a></li>
+                            <li><a href="#" data-project="menu-almacen"><i class="fas fa-store"></i> Menú Almacén</a></li>
+                            <li><a href="#" data-project="primera-web"><i class="fas fa-file-code"></i> Mi Primera Web</a></li>
+                            <li><a href="#" data-project="biografia"><i class="fas fa-user"></i> Mi Biografía</a></li>
+                            <li><a href="#" data-project="pagina-bancaria"><i class="fas fa-university"></i> Página Bancaria</a></li>
+                            <li><a href="#" data-project="codigo-qr"><i class="fas fa-qrcode"></i> Registro QR</a></li>
+                            <li><a href="#" data-project="registro-db"><i class="fas fa-database"></i> Registro DB</a></li>
+                            <li><a href="#" data-project="registros"><i class="fas fa-notes-medical"></i> Registros Médicos</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="content">
+        <section id="home" class="project-section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h2>Bienvenido a mi Portafolio de Proyectos</h2>
+                    <p class="hero-subtitle">Una colección de proyectos desarrollados en el Laboratorio de Lenguaje</p>
+                </div>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'etiquetas-html\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>102 Etiquetas HTML</h3>
+                    <p>Colección completa de etiquetas HTML sin estilos CSS</p>
+                </div>
+                
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'graficos\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Gráficos Hotel Eternal</h3>
+                    <p>Visualización de datos de visitantes mediante gráficos dinámicos</p>
+                </div>
+                
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'algoritmo-cedula\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3>Algoritmo Cédula</h3>
+                    <p>Validador de cédulas dominicanas con algoritmo Módulo 10</p>
+                </div>
+                
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'menu-almacen\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Menú Almacén</h3>
+                    <p>Sistema para agregar productos de belleza a un archivo JSON</p>
+                </div>
+                
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'registros\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-notes-medical"></i>
+                    </div>
+                    <h3>Registros Médicos</h3>
+                    <p>Sistema para registrar datos de pacientes y familiares</p>
+                </div>
+                
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'codigo-qr\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>Registro Código QR</h3>
+                    <p>Generador de códigos QR para agregar contactos</p>
+                </div>
+                
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'biografia\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Mi Biografía</h3>
+                    <p>Página personal con información biográfica</p>
+                </div>
+                
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'primera-web\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-file-code"></i>
+                    </div>
+                    <h3>Mi Primera Web</h3>
+                    <p>Proyecto inicial de desarrollo web</p>
+                </div>
+                
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'pagina-bancaria\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3>Página Bancaria</h3>
+                    <p>Diseño de interfaz para servicios bancarios</p>
+                </div>
+                
+                <div class="project-card" onclick="document.querySelector('.nav-menu a[data-project=\'registro-db\']').click()">
+                    <div class="project-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Registro DB</h3>
+                    <p>Sistema de registro con base de datos</p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <div class="about-content">
+                    <h2>Sobre este Proyecto</h2>
+                    <p>Esta aplicación web unifica todos los proyectos desarrollados en el Laboratorio de Lenguaje en una sola interfaz. Cada proyecto se puede acceder a través del menú de navegación, manteniendo una URL constante.</p>
+                    <p>Los proyectos abarcan diferentes tecnologías y conceptos, desde HTML básico hasta aplicaciones con almacenamiento de datos y visualizaciones gráficas.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="etiquetas-html" class="project-section">
+            <iframe src="102-etiquetas-HTML-main/index.html" frameborder="0"></iframe>
+        </section>
+        
+        <section id="graficos" class="project-section">
+            <iframe src="hotel-graficos/index.html" frameborder="0"></iframe>
+        </section>
+        
+        <section id="algoritmo-cedula" class="project-section">
+            <iframe src="JavaScript_Algoritmo_Cedula/index.html" frameborder="0"></iframe>
+        </section>
+        
+        <section id="menu-almacen" class="project-section">
+            <iframe src="Menú_Almacén/index.html" frameborder="0"></iframe>
+        </section>
+        
+        <section id="primera-web" class="project-section">
+            <iframe src="Mi primera web/index.html" frameborder="0"></iframe>
+        </section>
+        
+        <section id="biografia" class="project-section">
+            <iframe src="Mi-Biografia-HTML-main/index.html" frameborder="0"></iframe>
+        </section>
+        
+        <section id="pagina-bancaria" class="project-section">
+            <iframe src="Pagina_Bancaria_CSS-main/index.html" frameborder="0"></iframe>
+        </section>
+        
+        <section id="codigo-qr" class="project-section">
+            <iframe src="Registro code QR/index.html" frameborder="0"></iframe>
+        </section>
+        
+        <section id="registro-db" class="project-section">
+            <iframe src="Registro con base de datos/frontend-register/frontend/index.html" frameborder="0"></iframe>
+        </section>
+        
+        <section id="registros" class="project-section">
+            <iframe src="Registros/index.html" frameborder="0"></iframe>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-code"></i> Lab. Lenguaje
+            </div>
+            <div class="footer-links">
+                <a href="#" data-project="home"><i class="fas fa-home"></i> Inicio</a>
+                <a href="#" data-project="graficos"><i class="fas fa-chart-bar"></i> Gráficos</a>
+                <a href="#" data-project="registros"><i class="fas fa-notes-medical"></i> Registros</a>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2023 Proyectos de Laboratorio de Lenguaje</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario de Productos de Belleza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --success-color: #4ade80;
+            --danger-color: #f43f5e;
+            --warning-color: #f59e0b;
+            --text-color: #333;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: white;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button.btn-success {
+            background-color: var(--success-color);
+        }
+
+        button.btn-success:hover {
+            background-color: #3bca6d;
+        }
+
+        button.btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        button.btn-danger:hover {
+            background-color: #e11d48;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .product-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .product-item {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .product-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .product-name {
+            font-weight: 500;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .edit-btn {
+            background-color: var(--warning-color);
+        }
+
+        .edit-btn:hover {
+            background-color: #e69500;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            background-color: var(--danger-color);
+        }
+
+        .add-product-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .add-product-form input {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .add-product-form {
+                flex-direction: column;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inventario de Productos de Belleza</h1>
+        
+        <div class="card">
+            <div class="form-group">
+                <label for="categorySelect"><i class="fas fa-layer-group"></i> Categoría:</label>
+                <select id="categorySelect">
+                    <option value="">Seleccione una categoría</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="subcategorySelect"><i class="fas fa-tags"></i> Subcategoría:</label>
+                <select id="subcategorySelect">
+                    <option value="">Seleccione una subcategoría</option>
+                </select>
+            </div>
+            
+            <div class="add-product-form">
+                <input type="text" id="productName" placeholder="Nombre del producto">
+                <button id="addProductBtn">
+                    <i class="fas fa-plus"></i> Agregar Producto
+                </button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Productos</h2>
+            <ul id="productList" class="product-list">
+                <!-- Los productos se mostrarán aquí dinámicamente -->
+            </ul>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message"></span>
+    </div>
+
+    <script>
+        // Datos iniciales (productos)
+        let productos = {
+            "Productos de Limpieza": {
+                "Champú": [
+                    "Bamboo Cabello",
+                    "Head & Shoulders"
+                ],
+                "Acondicionador": [
+                    "Acondicionador de Pelo"
+                ],
+                "Champú en seco": []
+            },
+            "Tratamientos y Mascarillas": {
+                "Mascarillas capilares": [],
+                "Aceites capilares": [
+                    "Aceites para el cabello"
+                ],
+                "Serúm o tratamientos sin enjuague": [
+                    "Enjuague bucal"
+                ]
+            },
+            "Productos para el Estilizado": {
+                "Gel fijador": [
+                    "Crema Crew"
+                ],
+                "Cera o pomada": [],
+                "Spray fijador": [],
+                "Crema peinadora": []
+            },
+            "Tratamientos Específicos": {
+                "Ampollas o concentrados": [
+                    "Suavizado de Pelo"
+                ],
+                "Tónicos capilares": [],
+                "Productos para el cuero cabelludo": []
+            },
+            "Accesorios para el Cuidado del Cabello": {
+                "Peines de madera o de dientes anchos": [
+                    "Peines de Bamboo"
+                ],
+                "Cepillos de cerdas naturales": [],
+                "Toallas de microfibra": []
+            }
+        };
+
+        // Cargar datos desde localStorage o usar los iniciales
+        function loadData() {
+            const storedData = localStorage.getItem('productosAlmacen');
+            if (storedData) {
+                productos = JSON.parse(storedData);
+            } else {
+                // Guardar los datos iniciales en localStorage
+                localStorage.setItem('productosAlmacen', JSON.stringify(productos));
+            }
+        }
+
+        // Guardar datos en localStorage
+        function saveData() {
+            localStorage.setItem('productosAlmacen', JSON.stringify(productos));
+        }
+
+        // Elementos del DOM
+        const categorySelect = document.getElementById('categorySelect');
+        const subcategorySelect = document.getElementById('subcategorySelect');
+        const productList = document.getElementById('productList');
+        const productNameInput = document.getElementById('productName');
+        const addProductBtn = document.getElementById('addProductBtn');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Renderizar categorías
+        function renderCategories() {
+            categorySelect.innerHTML = '<option value="">Seleccione una categoría</option>';
+            
+            Object.keys(productos).forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        // Renderizar subcategorías
+        function renderSubcategories() {
+            const category = categorySelect.value;
+            subcategorySelect.innerHTML = '<option value="">Seleccione una subcategoría</option>';
+            
+            if (!category) return;
+            
+            Object.keys(productos[category]).forEach(subcategory => {
+                const option = document.createElement('option');
+                option.value = subcategory;
+                option.textContent = subcategory;
+                subcategorySelect.appendChild(option);
+            });
+        }
+
+        // Renderizar productos
+        function renderProducts() {
+            const category = categorySelect.value;
+            const subcategory = subcategorySelect.value;
+            
+            productList.innerHTML = '';
+            
+            if (!category || !subcategory) return;
+            
+            if (productos[category][subcategory].length === 0) {
+                productList.innerHTML = '<p>No hay productos en esta categoría.</p>';
+                return;
+            }
+            
+            productos[category][subcategory].forEach((product, index) => {
+                const li = document.createElement('li');
+                li.className = 'product-item';
+                
+                li.innerHTML = `
+                    <span class="product-name">${product}</span>
+                    <div class="product-actions">
+                        <button class="edit-btn" onclick="editProduct('${category}', '${subcategory}', ${index})">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="delete-btn" onclick="deleteProduct('${category}', '${subcategory}', ${index})">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                `;
+                
+                productList.appendChild(li);
+            });
+        }
+
+        // Agregar un producto
+        function addProduct() {
+            const category = categorySelect.value;
+            const subcategory = subcategorySelect.value;
+            const productName = productNameInput.value.trim();
+            
+            if (!category) {
+                showToast('Por favor, seleccione una categoría', true);
+                return;
+            }
+            
+            if (!subcategory) {
+                showToast('Por favor, seleccione una subcategoría', true);
+                return;
+            }
+            
+            if (!productName) {
+                showToast('Por favor, ingrese un nombre de producto', true);
+                return;
+            }
+            
+            productos[category][subcategory].push(productName);
+            saveData();
+            renderProducts();
+            productNameInput.value = '';
+            
+            showToast('Producto agregado correctamente');
+        }
+
+        // Editar un producto
+        function editProduct(category, subcategory, index) {
+            const oldProduct = productos[category][subcategory][index];
+            const newProduct = prompt('Editar producto:', oldProduct);
+            
+            if (!newProduct || newProduct.trim() === '') return;
+            
+            productos[category][subcategory][index] = newProduct;
+            saveData();
+            renderProducts();
+            
+            showToast('Producto actualizado correctamente');
+        }
+
+        // Eliminar un producto
+        function deleteProduct(category, subcategory, index) {
+            if (confirm('¿Está seguro de que desea eliminar este producto?')) {
+                productos[category][subcategory].splice(index, 1);
+                saveData();
+                renderProducts();
+                
+                showToast('Producto eliminado correctamente');
+            }
+        }
+
+        // Mostrar mensaje toast
+        function showToast(message, isError = false) {
+            toastMessage.textContent = message;
+            toast.className = isError ? 'toast error show' : 'toast show';
+            
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+
+        // Eventos
+        categorySelect.addEventListener('change', () => {
+            renderSubcategories();
+            renderProducts();
+        });
+        
+        subcategorySelect.addEventListener('change', renderProducts);
+        
+        addProductBtn.addEventListener('click', addProduct);
+
+        // Inicializar
+        loadData();
+        renderCategories();
+    </script>
+</body>
+</html>

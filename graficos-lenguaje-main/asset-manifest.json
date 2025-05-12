@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/graficos-lenguaje/static/css/main.43a42534.css",
+    "main.js": "/graficos-lenguaje/static/js/main.8b49be3c.js",
+    "static/js/453.54113e5f.chunk.js": "/graficos-lenguaje/static/js/453.54113e5f.chunk.js",
+    "index.html": "/graficos-lenguaje/index.html",
+    "main.43a42534.css.map": "/graficos-lenguaje/static/css/main.43a42534.css.map",
+    "main.8b49be3c.js.map": "/graficos-lenguaje/static/js/main.8b49be3c.js.map",
+    "453.54113e5f.chunk.js.map": "/graficos-lenguaje/static/js/453.54113e5f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.43a42534.css",
+    "static/js/main.8b49be3c.js"
+  ]
+}

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Datos Médicos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4cc9f0;
+      --success-color: #4ade80;
+      --danger-color: #f43f5e;
+      --warning-color: #f59e0b;
+      --text-color: #333;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1, h2 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background-color: var(--accent-color);
+      border-radius: 2px;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      background-color: var(--card-bg);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      border: none;
+      color: var(--text-color);
+    }
+
+    .tab.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .tab:hover:not(.active) {
+      background-color: #e9ecef;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .form-section {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: var(--box-shadow);
+    }
+
+    .form-section h2 {
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button.btn-success {
+      background-color: var(--success-color);
+    }
+
+    button.btn-success:hover {
+      background-color: #3bca6d;
+    }
+
+    button.btn-danger {
+      background-color: var(--danger-color);
+    }
+
+    button.btn-danger:hover {
+      background-color: #e11d48;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .records-container {
+      margin-top: 30px;
+    }
+
+    .record-card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--box-shadow);
+      position: relative;
+      border-left: 5px solid var(--primary-color);
+    }
+
+    .record-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .record-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .record-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .record-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .record-section {
+      margin-bottom: 15px;
+    }
+
+    .record-section h3 {
+      font-size: 1rem;
+      color: var(--text-color);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed #ddd;
+      padding-bottom: 5px;
+    }
+
+    .record-item {
+      margin-bottom: 5px;
+    }
+
+    .record-label {
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    .record-value {
+      color: #555;
+    }
+
+    .empty-records {
+      text-align: center;
+      padding: 30px;
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .empty-records i {
+      font-size: 3rem;
+      color: #ccc;
+      margin-bottom: 15px;
+    }
+
+    .empty-records p {
+      color: #888;
+      font-size: 1.1rem;
+    }
+
+    .search-bar {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 20px 12px 45px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+    }
+
+    .search-bar i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: var(--success-color);
+      color: white;
+      padding: 15px 25px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.3s;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.error {
+      background-color: var(--danger-color);
+    }
+
+    @media (max-width: 768px) {
+      .form-group {
+        min-width: 100%;
+      }
+
+      .btn-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .record-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .record-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sistema de Registros Médicos</h1>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="form">Nuevo Registro</button>
+      <button class="tab" data-tab="records">Ver Registros</button>
+    </div>
+
+    <div id="form-tab" class="tab-content active">
+      <form id="medical-form">
+        <input type="hidden" id="record-id">
+        
+        <div class="form-section">
+          <h2>Datos Personales</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre Completo</label>
+              <input type="text" id="nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="edad">Edad</label>
+              <input type="number" id="edad" min="0" max="120" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" required>
+            </div>
+            <div class="form-group">
+              <label for="direccion">Dirección</label>
+              <input type="text" id="direccion" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="correo">Correo Electrónico</label>
+              <input type="email" id="correo" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Datos del Familiar</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="familiar-nombre">Nombre Completo</label>
+              <input type="text" id="familiar-nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="familiar-edad">Edad</label>
+              <input type="number" id="familiar-edad" min="0" max="120" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="familiar-telefono">Teléfono</label>
+              <input type="tel" id="familiar-telefono" required>
+            </div>
+            <div class="form-group">
+              <label for="familiar-direccion">Dirección</label>
+              <input type="text" id="familiar-direccion" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="parentesco">Parentesco</label>
+              <select id="parentesco" required>
+                <option value="">Seleccionar...</option>
+                <option value="Padre/Madre">Padre/Madre</option>
+                <option value="Hijo/Hija">Hijo/Hija</option>
+                <option value="Hermano/Hermana">Hermano/Hermana</option>
+                <option value="Cónyuge">Cónyuge</option>
+                <option value="Abuelo/Abuela">Abuelo/Abuela</option>
+                <option value="Tío/Tía">Tío/Tía</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Condiciones de Salud</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="enfermedad">Enfermedad Principal</label>
+              <input type="text" id="enfermedad" required>
+            </div>
+            <div class="form-group">
+              <label for="tiempo-enfermedad">Tiempo con la Enfermedad (años)</label>
+              <input type="number" id="tiempo-enfermedad" min="0" step="0.1" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="detalles-enfermedad">Detalles de la Condición</label>
+              <textarea id="detalles-enfermedad" maxlength="500" required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Internamiento</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="centro-medico">Centro Médico</label>
+              <input type="text" id="centro-medico" required>
+            </div>
+            <div class="form-group">
+              <label for="fecha-internamiento">Fecha de Internamiento</label>
+              <input type="date" id="fecha-internamiento" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="diagnostico">Diagnóstico</label>
+              <textarea id="diagnostico" maxlength="500" required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="reset" class="btn-danger">
+            <i class="fas fa-times"></i> Limpiar Formulario
+          </button>
+          <button type="submit" class="btn-success">
+            <i class="fas fa-save"></i> Guardar Registro
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div id="records-tab" class="tab-content">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Buscar por nombre, enfermedad, centro médico...">
+      </div>
+
+      <div id="records-container" class="records-container">
+        <!-- Los registros se mostrarán aquí dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toast-message"></span>
+  </div>
+
+  <script>
+    // Almacenamiento de registros
+    let medicalRecords = JSON.parse(localStorage.getItem('medicalRecords')) || [];
+    
+    // Elementos del DOM
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const medicalForm = document.getElementById('medical-form');
+    const recordsContainer = document.getElementById('records-container');
+    const searchInput = document.getElementById('search-input');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    const recordIdInput = document.getElementById('record-id');
+    
+    // Cambio de pestañas
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(tc => tc.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+        
+        if (tab.dataset.tab === 'records') {
+          displayRecords();
+        }
+      });
+    });
+    
+    // Envío del formulario
+    medicalForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const recordId = recordIdInput.value;
+      const record = {
+        id: recordId || Date.now().toString(),
+        personal: {
+          nombre: document.getElementById('nombre').value,
+          edad: document.getElementById('edad').value,
+          telefono: document.getElementById('telefono').value,
+          direccion: document.getElementById('direccion').value,
+          correo: document.getElementById('correo').value
+        },
+        familiar: {
+          nombre: document.getElementById('familiar-nombre').value,
+          edad: document.getElementById('familiar-edad').value,
+          telefono: document.getElementById('familiar-telefono').value,
+          direccion: document.getElementById('familiar-direccion').value,
+          parentesco: document.getElementById('parentesco').value
+        },
+        salud: {
+          enfermedad: document.getElementById('enfermedad').value,
+          tiempo: document.getElementById('tiempo-enfermedad').value,
+          detalles: document.getElementById('detalles-enfermedad').value
+        },
+        internamiento: {
+          centro: document.getElementById('centro-medico').value,
+          fecha: document.getElementById('fecha-internamiento').value,
+          diagnostico: document.getElementById('diagnostico').value
+        },
+        fechaRegistro: new Date().toISOString()
+      };
+      
+      if (recordId) {
+        // Actualizar registro existente
+        const index = medicalRecords.findIndex(r => r.id === recordId);
+        if (index !== -1) {
+          medicalRecords[index] = record;
+          showToast('Registro actualizado correctamente');
+        }
+      } else {
+        // Crear nuevo registro
+        medicalRecords.push(record);
+        showToast('Registro guardado correctamente');
+      }
+      
+      // Guardar en localStorage
+      localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));
+      
+      // Limpiar formulario y resetear ID
+      medicalForm.reset();
+      recordIdInput.value = '';
+      
+      // Cambiar a la pestaña de registros
+      tabs[1].click();
+    });
+    
+    // Búsqueda de registros
+    searchInput.addEventListener('input', () => {
+      displayRecords();
+    });
+    
+    // Mostrar registros
+    function displayRecords() {
+      const searchTerm = searchInput.value.toLowerCase();
+      
+      let filteredRecords = medicalRecords;
+      
+      if (searchTerm) {
+        filteredRecords = medicalRecords.filter(record => {
+          return record.personal.nombre.toLowerCase().includes(searchTerm) ||
+                 record.salud.enfermedad.toLowerCase().includes(searchTerm) ||
+                 record.internamiento.centro.toLowerCase().includes(searchTerm);
+        });
+      }
+      
+      if (filteredRecords.length === 0) {
+        recordsContainer.innerHTML = `
+          <div class="empty-records">
+            <i class="fas fa-folder-open"></i>
+            <p>No hay registros médicos disponibles</p>
+          </div>
+        `;
+        return;
+      }
+      
+      recordsContainer.innerHTML = '';
+      
+      filteredRecords.forEach(record => {
+        const recordCard = document.createElement('div');
+        recordCard.className = 'record-card';
+        
+        recordCard.innerHTML = `
+          <div class="record-header">
+            <div class="record-title">${record.personal.nombre} - ${record.salud.enfermedad}</div>
+            <div class="record-actions">
+              <button onclick="editRecord('${record.id}')" class="btn-success">
+                <i class="fas fa-edit"></i> Editar
+              </button>
+              <button onclick="deleteRecord('${record.id}')" class="btn-danger">
+                <i class="fas fa-trash"></i> Eliminar
+              </button>
+            </div>
+          </div>
+          <div class="record-content">
+            <div class="record-section">
+              <h3>Datos Personales</h3>
+              <div class="record-item">
+                <span class="record-label">Nombre:</span>
+                <span class="record-value">${record.personal.nombre}</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Edad:</span>
+                <span class="record-value">${record.personal.edad} años</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Teléfono:</span>
+                <span class="record-value">${record.personal.telefono}</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Dirección:</span>
+                <span class="record-value">${record.personal.direccion}</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Correo:</span>
+                <span class="record-value">${record.personal.correo}</span>
+              </div>
+            </div>
+            
+            <div class="record-section">
+              <h3>Familiar</h3>
+              <div class="record-item">
+                <span class="record-label">Nombre:</span>
+                <span class="record-value">${record.familiar.nombre}</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Parentesco:</span>
+                <span class="record-value">${record.familiar.parentesco}</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Edad:</span>
+                <span class="record-value">${record.familiar.edad} años</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Teléfono:</span>
+                <span class="record-value">${record.familiar.telefono}</span>
+              </div>
+            </div>
+            
+            <div class="record-section">
+              <h3>Condición de Salud</h3>
+              <div class="record-item">
+                <span class="record-label">Enfermedad:</span>
+                <span class="record-value">${record.salud.enfermedad}</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Tiempo:</span>
+                <span class="record-value">${record.salud.tiempo} años</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Detalles:</span>
+                <span class="record-value">${record.salud.detalles}</span>
+              </div>
+            </div>
+            
+            <div class="record-section">
+              <h3>Internamiento</h3>
+              <div class="record-item">
+                <span class="record-label">Centro Médico:</span>
+                <span class="record-value">${record.internamiento.centro}</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Fecha:</span>
+                <span class="record-value">${formatDate(record.internamiento.fecha)}</span>
+              </div>
+              <div class="record-item">
+                <span class="record-label">Diagnóstico:</span>
+                <span class="record-value">${record.internamiento.diagnostico}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        recordsContainer.appendChild(recordCard);
+      });
+    }
+    
+    // Editar registro
+    function editRecord(id) {
+      const record = medicalRecords.find(r => r.id === id);
+      if (!record) return;
+      
+      // Llenar formulario con datos del registro
+      document.getElementById('record-id').value = record.id;
+      document.getElementById('nombre').value = record.personal.nombre;
+      document.getElementById('edad').value = record.personal.edad;
+      document.getElementById('telefono').value = record.personal.telefono;
+      document.getElementById('direccion').value = record.personal.direccion;
+      document.getElementById('correo').value = record.personal.correo;
+      
+      document.getElementById('familiar-nombre').value = record.familiar.nombre;
+      document.getElementById('familiar-edad').value = record.familiar.edad;
+      document.getElementById('familiar-telefono').value = record.familiar.telefono;
+      document.getElementById('familiar-direccion').value = record.familiar.direccion;
+      document.getElementById('parentesco').value = record.familiar.parentesco;
+      
+      document.getElementById('enfermedad').value = record.salud.enfermedad;
+      document.getElementById('tiempo-enfermedad').value = record.salud.tiempo;
+      document.getElementById('detalles-enfermedad').value = record.salud.detalles;
+      
+      document.getElementById('centro-medico').value = record.internamiento.centro;
+      document.getElementById('fecha-internamiento').value = record.internamiento.fecha;
+      document.getElementById('diagnostico').value = record.internamiento.diagnostico;
+      
+      // Cambiar a la pestaña de formulario
+      tabs[0].click();
+      
+      // Scroll al inicio
+      window.scrollTo(0, 0);
+    }
+    
+    // Eliminar registro
+    function deleteRecord(id) {
+      if (confirm('¿Está seguro de que desea eliminar este registro? Esta acción no se puede deshacer.')) {
+        medicalRecords = medicalRecords.filter(r => r.id !== id);
+        localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));
+        displayRecords();
+        showToast('Registro eliminado correctamente', true);
+      }
+    }
+    
+    // Mostrar mensaje toast
+    function showToast(message, isError = false) {
+      toastMessage.textContent = message;
+      toast.className = isError ? 'toast error show' : 'toast show';
+      
+      setTimeout(() => {
+        toast.className = 'toast';
+      }, 3000);
+    }
+    
+    // Formatear fecha
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('es-ES', options);
+    }
+    
+    // Cargar registros al iniciar
+    displayRecords();
+  </script>
+</body>
+</html>

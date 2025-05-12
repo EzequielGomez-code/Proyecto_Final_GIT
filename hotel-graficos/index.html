@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Eternal - Registro de Personas</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hotel Eternal</h1>
+            <p>Sistema de Registro de Visitantes</p>
+        </header>
+
+        <main>
+            <section class="form-section">
+                <h2>Registro de Visitantes</h2>
+                <form id="visitor-form">
+                    <div class="form-group">
+                        <label for="month">Mes:</label>
+                        <select id="month" required>
+                            <option value="">Seleccionar mes</option>
+                            <option value="Enero">Enero</option>
+                            <option value="Febrero">Febrero</option>
+                            <option value="Marzo">Marzo</option>
+                            <option value="Abril">Abril</option>
+                            <option value="Mayo">Mayo</option>
+                            <option value="Junio">Junio</option>
+                            <option value="Julio">Julio</option>
+                            <option value="Agosto">Agosto</option>
+                            <option value="Septiembre">Septiembre</option>
+                            <option value="Octubre">Octubre</option>
+                            <option value="Noviembre">Noviembre</option>
+                            <option value="Diciembre">Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="visitors">Cantidad de Visitantes:</label>
+                        <input type="number" id="visitors" min="1" required>
+                    </div>
+                    <button type="submit" class="btn">Agregar Registro</button>
+                </form>
+            </section>
+
+            <section class="charts-section">
+                <h2>Estadísticas de Visitantes</h2>
+                <div class="chart-container">
+                    <canvas id="bar-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="pie-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="line-chart"></canvas>
+                </div>
+            </section>
+
+            <section class="data-section">
+                <h2>Registros</h2>
+                <table id="data-table">
+                    <thead>
+                        <tr>
+                            <th>Mes</th>
+                            <th>Visitantes</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los datos se agregarán dinámicamente -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 Hotel Eternal</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

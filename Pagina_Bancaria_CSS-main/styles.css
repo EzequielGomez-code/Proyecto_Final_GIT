@@ -1,0 +1,168 @@
+body {
+    font-family: "Oswald", sans-serif;
+    background-color: #e6f7e6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #2a7d2e;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    position: relative;
+    z-index: 1001;
+}
+
+.exchange-rate {
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1001;
+}
+
+nav ul li {
+    position: relative;
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    transition: background 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #206622;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background: #2a7d2e;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 150px;
+    z-index: 1002;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.dropdown:hover .dropdown-menu,
+.menu-item.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.dropdown-menu li {
+    padding: 10px;
+}
+
+.dropdown-menu li a {
+    color: white;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #1e5d20;
+}
+
+.search-icon {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ------------------ Menú Destacados (Nuevo) ------------------ */
+.menu-destacados {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: #b2d8b2;
+    padding: 10px;
+    position: relative;
+    z-index: 1000;
+}
+
+.menu-item a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+    display: block;
+}
+
+/* Diseño independiente para el nuevo menú */
+.dropdown-destacado {
+    position: relative;
+}
+
+.dropdown-destacado-menu {
+    display: none;
+    position: absolute;
+    top: 60%;
+    left: 0;
+    background: #81b981;
+    min-width: 180px;
+    padding: 0;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-destacado:hover .dropdown-destacado-menu,
+.dropdown-destacado:focus-within .dropdown-destacado-menu {
+    display: block;
+}
+
+.dropdown-destacado-menu li {
+    list-style: none;
+    padding: 10px;
+}
+
+.dropdown-destacado-menu li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-destacado-menu li a:hover {
+    background-color: #5f995f;
+}
+
+/* ------------------ Galería de imágenes ------------------ */
+.image-gallery {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 20px;
+    background: #e6f7e6;
+}
+
+.image-container img {
+    width: 320px;
+    height: auto;
+}

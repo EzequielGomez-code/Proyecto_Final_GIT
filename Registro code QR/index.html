@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario de Contacto QR</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #b993d6, #8ca6db);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      color: white;
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 500;
+      font-size: 22px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 16px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 12px 12px 38px;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .input-group input::placeholder {
+      color: #f1f1f1;
+    }
+
+    .button {
+      width: 100%;
+      padding: 12px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.03);
+    }
+
+    #qrcode {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    #qrcode img {
+      background-color: white;
+      padding: 10px;
+      border-radius: 12px;
+      max-width: 100%;
+    }
+
+    @media (max-width: 450px) {
+      .container {
+        padding: 25px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Formulario de Contacto</h2>
+    <div class="input-group">
+      <i class="fa fa-user"></i>
+      <input type="text" id="nombre" placeholder="Nombre" required>
+    </div>
+    <div class="input-group">
+      <i class="fa fa-user"></i>
+      <input type="text" id="apellido" placeholder="Apellido" required>
+    </div>
+    <div class="input-group">
+      <i class="fa fa-phone"></i>
+      <input type="tel" id="telefono" placeholder="Teléfono" required>
+    </div>
+    <div class="input-group">
+      <i class="fa fa-envelope"></i>
+      <input type="email" id="correo" placeholder="Correo (opcional)">
+    </div>
+    <div class="input-group">
+      <i class="fa fa-sticky-note"></i>
+      <input type="text" id="nota" placeholder="Nota (opcional)">
+    </div>
+    <button class="button" onclick="generarQR()">Generar QR</button>
+
+    <div id="qrcode"></div>
+  </div>
+
+  <script>
+    function generarQR() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const apellido = document.getElementById('apellido').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const correo = document.getElementById('correo').value.trim();
+      const nota = document.getElementById('nota').value.trim();
+
+      if (!nombre || !apellido || !telefono) {
+        alert("Por favor, completa al menos nombre, apellido y teléfono.");
+        return;
+      }
+
+      const vcard = `BEGIN:VCARD
+VERSION:3.0
+N:${apellido};${nombre}
+FN:${nombre} ${apellido}
+TEL;TYPE=CELL:${telefono}
+${correo ? 'EMAIL:' + correo : ''}
+${nota ? 'NOTE:' + nota : ''}
+END:VCARD`;
+
+      const encoded = encodeURIComponent(vcard);
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encoded}`;
+
+      document.getElementById('qrcode').innerHTML = `<img src="${qrUrl}" alt="Código QR generado">`;
+    }
+  </script>
+
+</body>
+</html>

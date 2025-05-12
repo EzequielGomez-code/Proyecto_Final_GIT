@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validación de Cédula</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 800px;
+            width: 90%;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+            font-size: clamp(22px, 5vw, 28px);
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #f1f5f9;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: 0;
+            left: 15px;
+            font-size: 12px;
+            background-color: #fff;
+            padding: 0 5px;
+            color: #3498db;
+        }
+        
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(52, 152, 219, 0.2);
+        }
+        
+        #output {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+            transition: all 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        
+        #output.show {
+            max-height: 500px;
+            opacity: 1;
+            margin-top: 25px;
+        }
+        
+        .result-valid {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .result-invalid {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .info {
+            background-color: #eaf2f8;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .animation-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            overflow: hidden;
+            height: 0;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .animation-container.show {
+            height: 60px;
+            opacity: 1;
+        }
+        
+        .loading-animation {
+            display: flex;
+            align-items: center;
+        }
+        
+        .loading-animation span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background-color: #3498db;
+            border-radius: 50%;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+        
+        .loading-animation span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-animation span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            h2 {
+                padding-bottom: 10px;
+            }
+            
+            .input-group input {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            
+            .input-group label {
+                font-size: 14px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+            
+            #output {
+                font-size: 13px;
+                padding: 15px;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 15px;
+                border-radius: 8px;
+            }
+            
+            h2 {
+                margin-bottom: 15px;
+            }
+            
+            .input-group {
+                margin-bottom: 20px;
+            }
+            
+            .input-group input {
+                padding: 10px 12px;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .info {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Validación de Cédula Dominicana</h2>
+        
+        <form id="cedula-form">
+            <div class="input-group">
+                <input type="text" id="cedula-input" placeholder=" " pattern="[0-9]{3}-[0-9]{7}-[0-9]{1}" required>
+                <label for="cedula-input">Ingrese la cédula (Formato: xxx-xxxxxxx-x)</label>
+            </div>
+            
+            <button type="submit" class="btn">Validar Cédula</button>
+        </form>
+        
+        <div class="animation-container" id="animation">
+            <div class="loading-animation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <pre id="output"></pre>
+        
+        <div class="info">
+            <p>Este sistema valida cédulas dominicanas utilizando el algoritmo del Módulo 10.</p>
+            <p>Formato esperado: xxx-xxxxxxx-x (Ejemplo: 402-1234567-8)</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cedulaForm = document.getElementById('cedula-form');
+            const cedulaInput = document.getElementById('cedula-input');
+            const output = document.getElementById('output');
+            const animation = document.getElementById('animation');
+            
+            cedulaForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Mostrar animación
+                animation.classList.add('show');
+                output.classList.remove('show');
+                output.className = '';
+                
+                // Simular procesamiento
+                setTimeout(function() {
+                    validarCedula(cedulaInput.value);
+                    animation.classList.remove('show');
+                }, 1000);
+            });
+            
+            // Formatear automáticamente la cédula mientras se escribe
+            cedulaInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/[^\d]/g, ''); // Eliminar todo excepto dígitos
+                if (value.length > 0) {
+                    // Insertar primer guión después de 3 dígitos
+                    if (value.length > 3) {
+                        value = value.slice(0, 3) + '-' + value.slice(3);
+                    }
+                    // Insertar segundo guión después de 10 caracteres (incluyendo el primer guión)
+                    if (value.length > 11) {
+                        value = value.slice(0, 11) + '-' + value.slice(11);
+                    }
+                    // Limitar a 13 caracteres (incluyendo guiones)
+                    if (value.length > 13) {
+                        value = value.slice(0, 13);
+                    }
+                }
+                e.target.value = value;
+            });
+        });
+        
+        function validarCedula(cedula) {
+            if (!cedula) {
+                document.getElementById("output").textContent = "Operación cancelada.";
+                return;
+            }
+            
+            let numeros = cedula.replace(/-/g, '').split('').map(Number);
+            let digitos = numeros.slice(0, -1);
+            let digitoVerificador = numeros[numeros.length - 1];
+            let multiplicadores = [1, 2, 1, 2, 1, 2, 1, 2, 1, 2];
+            let resultadosMultiplicacion = digitos.map((num, i) => num * multiplicadores[i]);
+            let resultadosFinales = resultadosMultiplicacion.map(num => (num >= 10 ? (num % 10) + 1 : num));
+            let sumaTotal = resultadosFinales.reduce((acc, num) => acc + num, 0);
+            let residuo = sumaTotal % 10;
+            let digitoCalculado = (10 - residuo) % 10;
+            
+            let resultadoTexto = `Dígitos de la cédula: ${digitos.join(', ')}\n`;
+            resultadoTexto += `Multiplicadores: ${multiplicadores.join(', ')}\n`;
+            resultadoTexto += `Resultados de la multiplicación: ${resultadosMultiplicacion.join(', ')}\n`;
+            resultadoTexto += `Resultados con ajuste: ${resultadosFinales.join(', ')}\n`;
+            resultadoTexto += `Suma total: ${sumaTotal}\n`;
+            resultadoTexto += `Dígito calculado: ${digitoCalculado}\n`;
+            resultadoTexto += `Dígito verificador ingresado: ${digitoVerificador}\n\n`;
+            
+            const esValida = digitoCalculado === digitoVerificador;
+            resultadoTexto += esValida 
+                ? "✅ La cédula es válida." 
+                : "❌ La cédula es inválida.";
+            
+            const outputElement = document.getElementById("output");
+            outputElement.textContent = resultadoTexto;
+            outputElement.className = esValida ? "result-valid show" : "result-invalid show";
+        }
+    </script>
+</body>
+</html>

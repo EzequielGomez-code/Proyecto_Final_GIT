@@ -1,0 +1,43 @@
+{
+  "Productos de Limpieza": {
+    "Champú": [
+      "Bamboo Cabello",
+      "Head Shoulder"
+    ],
+    "Acondicionador": [
+      "Acondicionador de Pelo"
+    ],
+    "Champú en seco": []
+  },
+  "Tratamientos y Mascarillas": {
+    "Mascarillas capilares": [],
+    "Aceites capilares": [
+      "Aceites para el cabello"
+    ],
+    "Serúm o tratamientos sin enjuague": [
+      "Enjuague bucal"
+    ]
+  },
+  "Productos para el Estilizado": {
+    "Gel fijador": [
+      "Crema Crew"
+    ],
+    "Cera o pomada": [],
+    "Spray fijador": [],
+    "Crema peinadora": []
+  },
+  "Tratamientos Específicos": {
+    "Ampollas o concentrados": [
+      "Suavizado de Pelo"
+    ],
+    "Tónicos capilares": [],
+    "Productos para el cuero cabelludo": []
+  },
+  "Accesorios para el Cuidado del Cabello": {
+    "Peines de madera o de dientes anchos": [
+      "Peines de Bamboo"
+    ],
+    "Cepillos de cerdas naturales": [],
+    "Toallas de microfibra": []
+  }
+}
