@@ -1,5 +1,5 @@
-// URL base para la API
-const API_URL = 'http://localhost:3000/api/registros';
+// Clave para almacenar los registros en localStorage
+const STORAGE_KEY = 'registro_db_datos';
 
 // Referencias a elementos del DOM
 const registroForm = document.getElementById('registroForm');
@@ -29,25 +29,31 @@ function mostrarNotificacion(mensaje, esError = false) {
     }, 3000);
 }
 
-// Función para obtener todos los registros
-async function obtenerRegistros() {
+// Función para obtener todos los registros desde localStorage
+function obtenerRegistros() {
     try {
-        const response = await fetch(API_URL);
-        
-        if (!response.ok) {
-            throw new Error('Error al obtener los registros');
-        }
-        
-        registros = await response.json();
+        const data = localStorage.getItem(STORAGE_KEY);
+        registros = data ? JSON.parse(data) : [];
         mostrarRegistros();
     } catch (error) {
         console.error('Error:', error);
-        mostrarNotificacion('Error al obtener los registros del servidor', true);
+        mostrarNotificacion('Error al cargar los registros', true);
+    }
+}
+
+// Función para guardar todos los registros en localStorage
+function guardarDatos() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(registros));
+        return true;
+    } catch (error) {
+        console.error('Error al guardar datos:', error);
+        return false;
     }
 }
 
 // Función para guardar un registro
-async function guardarRegistro(evento) {
+function guardarRegistro(evento) {
     evento.preventDefault();
     
     // Obtener datos del formulario
@@ -60,47 +66,43 @@ async function guardarRegistro(evento) {
     };
     
     try {
-        let response;
         let mensaje;
         
         if (registroEditando) {
             // Actualizar registro existente
-            response = await fetch(`${API_URL}/${registroEditando.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(nuevoRegistro)
-            });
+            const indice = registros.findIndex(reg => reg.id === registroEditando.id);
+            
+            if (indice !== -1) {
+                registros[indice] = {
+                    ...registros[indice],
+                    ...nuevoRegistro
+                };
+            }
             
             mensaje = 'Registro actualizado correctamente';
         } else {
-            // Crear nuevo registro
-            response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(nuevoRegistro)
-            });
+            // Crear nuevo registro con ID único
+            nuevoRegistro.id = Date.now();
+            registros.push(nuevoRegistro);
             
             mensaje = 'Registro guardado correctamente';
         }
         
-        if (!response.ok) {
+        // Guardar en localStorage
+        if (guardarDatos()) {
+            // Resetear formulario y estado
+            registroForm.reset();
+            registroEditando = null;
+            
+            // Cambiar texto del botón de vuelta a "Guardar"
+            document.querySelector('.btn-primary').innerHTML = '<i class="fas fa-save"></i> Guardar';
+            
+            // Actualizar lista de registros
+            mostrarRegistros();
+            mostrarNotificacion(mensaje);
+        } else {
             throw new Error('Error al guardar el registro');
         }
-        
-        // Resetear formulario y estado
-        registroForm.reset();
-        registroEditando = null;
-        
-        // Cambiar texto del botón de vuelta a "Guardar"
-        document.querySelector('.btn-primary').innerHTML = '<i class="fas fa-save"></i> Guardar';
-        
-        // Actualizar lista de registros
-        obtenerRegistros();
-        mostrarNotificacion(mensaje);
     } catch (error) {
         console.error('Error:', error);
         mostrarNotificacion('Error al guardar el registro', true);
@@ -108,20 +110,20 @@ async function guardarRegistro(evento) {
 }
 
 // Función para eliminar un registro
-async function eliminarRegistro(id) {
+function eliminarRegistro(id) {
     if (confirm('¿Está seguro de que desea eliminar este registro? Esta acción no se puede deshacer.')) {
         try {
-            const response = await fetch(`${API_URL}/${id}`, {
-                method: 'DELETE'
-            });
+            // Filtrar el registro a eliminar
+            registros = registros.filter(reg => reg.id !== id);
             
-            if (!response.ok) {
+            // Guardar en localStorage
+            if (guardarDatos()) {
+                // Actualizar lista de registros
+                mostrarRegistros();
+                mostrarNotificacion('Registro eliminado correctamente');
+            } else {
                 throw new Error('Error al eliminar el registro');
             }
-            
-            // Actualizar lista de registros
-            obtenerRegistros();
-            mostrarNotificacion('Registro eliminado correctamente');
         } catch (error) {
             console.error('Error:', error);
             mostrarNotificacion('Error al eliminar el registro', true);
@@ -132,7 +134,7 @@ async function eliminarRegistro(id) {
 // Función para editar un registro
 function editarRegistro(id) {
     // Encontrar el registro a editar
-    const registro = registros.find(reg => reg.id == id);
+    const registro = registros.find(reg => reg.id === id);
     
     if (!registro) {
         mostrarNotificacion('Registro no encontrado', true);
