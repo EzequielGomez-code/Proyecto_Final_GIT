@@ -129,12 +129,18 @@ th, td {
 table th:nth-child(1), table td:nth-child(1) { width: 20%; }
 table th:nth-child(2), table td:nth-child(2) { width: 25%; }
 table th:nth-child(3), table td:nth-child(3) { 
-    width: 20%; 
-    white-space: nowrap; 
+    width: 22%; 
+    white-space: nowrap !important; 
     font-family: monospace;
+    overflow: visible !important;
+    word-break: keep-all !important;
+    display: table-cell !important;
+    word-spacing: normal !important;
+    max-width: none !important;
+    min-width: 140px !important;
 }
 table th:nth-child(4), table td:nth-child(4) { width: 15%; }
-table th:nth-child(5), table td:nth-child(5) { width: 20%; }
+table th:nth-child(5), table td:nth-child(5) { width: 18%; }
 
 th {
     background-color: #f2f2f2;
@@ -143,6 +149,13 @@ th {
 
 tbody tr:hover {
     background-color: #f9f9f9;
+}
+
+td:nth-child(3) {
+    letter-spacing: 0;
+    font-size: 0.95rem;
+    white-space: nowrap !important;
+    overflow: visible !important;
 }
 
 .btn-action {
@@ -211,6 +224,14 @@ tbody tr:hover {
     
     h2 {
         font-size: 20px;
+    }
+    
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    table {
+        min-width: 600px;
     }
     
     th, td {

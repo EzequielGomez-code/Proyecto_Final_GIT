@@ -25,6 +25,14 @@ function formatearTelefono(numero) {
     } else if (numeroLimpio.length > 10) {
         // Si hay más dígitos, cortar a 10
         return `(${numeroLimpio.substring(0, 3)}) ${numeroLimpio.substring(3, 6)}-${numeroLimpio.substring(6, 10)}`;
+    } else if (numeroLimpio.length === 7) {
+        // Formato para número local sin código de área
+        return `${numeroLimpio.substring(0, 3)}-${numeroLimpio.substring(3, 7)}`;
+    } else if (numeroLimpio.length > 6) {
+        // Intentar formatear lo mejor posible
+        const area = numeroLimpio.substring(0, 3);
+        const resto = numeroLimpio.substring(3);
+        return `(${area}) ${resto}`;
     }
     
     // Si no hay suficientes dígitos, devolver como está
@@ -257,6 +265,7 @@ function mostrarRegistros(filtro = '') {
     mensajeVacio.style.display = 'none';
     
     registrosFiltrados.forEach(registro => {
+        // Crear una nueva fila
         const tr = document.createElement('tr');
         
         // Formatear fecha para mostrarla mejor
@@ -267,27 +276,45 @@ function mostrarRegistros(filtro = '') {
             fecha = registro.fecha;
         }
         
-        // Formatear el teléfono si no está en el formato correcto
+        // Formatear el teléfono para asegurar que esté en formato correcto
         let telefono = registro.telefono;
-        if (!telefono.includes('(')) {
-            telefono = formatearTelefono(telefono);
-        }
+        telefono = formatearTelefono(telefono.replace(/[\s\n]/g, ''));
         
-        tr.innerHTML = `
-            <td>${registro.nombre}</td>
-            <td>${registro.email}</td>
-            <td>${telefono}</td>
-            <td>${fecha}</td>
-            <td>
-                <button class="btn-action edit" onclick="editarRegistro(${registro.id})">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn-action delete" onclick="eliminarRegistro(${registro.id})">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </td>
+        // Crear las celdas directamente en lugar de usar innerHTML
+        // Celda de nombre
+        const tdNombre = document.createElement('td');
+        tdNombre.textContent = registro.nombre;
+        tr.appendChild(tdNombre);
+        
+        // Celda de email
+        const tdEmail = document.createElement('td');
+        tdEmail.textContent = registro.email;
+        tr.appendChild(tdEmail);
+        
+        // Celda de teléfono
+        const tdTelefono = document.createElement('td');
+        tdTelefono.textContent = telefono;
+        tdTelefono.style.whiteSpace = 'nowrap';
+        tr.appendChild(tdTelefono);
+        
+        // Celda de fecha
+        const tdFecha = document.createElement('td');
+        tdFecha.textContent = fecha;
+        tr.appendChild(tdFecha);
+        
+        // Celda de acciones
+        const tdAcciones = document.createElement('td');
+        tdAcciones.innerHTML = `
+            <button class="btn-action edit" onclick="editarRegistro(${registro.id})">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-action delete" onclick="eliminarRegistro(${registro.id})">
+                <i class="fas fa-trash-alt"></i>
+            </button>
         `;
+        tr.appendChild(tdAcciones);
         
+        // Añadir la fila completa a la tabla
         tbody.appendChild(tr);
     });
 }
