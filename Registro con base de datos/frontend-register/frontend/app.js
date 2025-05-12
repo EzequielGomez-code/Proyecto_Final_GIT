@@ -86,6 +86,25 @@ function mostrarNotificacion(mensaje, esError = false) {
     }, 3000);
 }
 
+// Función para formatear fecha al formato DD/MM/YYYY más legible
+function formatearFecha(fechaStr) {
+    if (!fechaStr) return '';
+    
+    try {
+        const fecha = new Date(fechaStr);
+        if (isNaN(fecha.getTime())) return fechaStr; // Si la fecha no es válida, retornar el string original
+        
+        const dia = fecha.getDate().toString().padStart(2, '0');
+        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+        const año = fecha.getFullYear();
+        
+        return `${dia}/${mes}/${año}`;
+    } catch (e) {
+        console.error('Error al formatear fecha:', e);
+        return fechaStr; // En caso de error, retornar el string original
+    }
+}
+
 // Datos iniciales de ejemplo (simulando un JSON cargado)
 const datosIniciales = [
     {
@@ -243,25 +262,6 @@ function editarRegistro(id) {
     document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
 }
 
-// Función para formatear fecha al formato DD/MM/YYYY más legible
-function formatearFecha(fechaStr) {
-    if (!fechaStr) return '';
-    
-    try {
-        const fecha = new Date(fechaStr);
-        if (isNaN(fecha.getTime())) return fechaStr; // Si la fecha no es válida, retornar el string original
-        
-        const dia = fecha.getDate().toString().padStart(2, '0');
-        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-        const año = fecha.getFullYear();
-        
-        return `${dia}/${mes}/${año}`;
-    } catch (e) {
-        console.error('Error al formatear fecha:', e);
-        return fechaStr; // En caso de error, retornar el string original
-    }
-}
-
 // Función para mostrar registros en la tabla
 function mostrarRegistros(filtro = '') {
     const tbody = tablaRegistros.querySelector('tbody');
@@ -284,52 +284,28 @@ function mostrarRegistros(filtro = '') {
     mensajeVacio.style.display = 'none';
     
     registrosFiltrados.forEach(registro => {
-        // Crear una nueva fila
+        // Formatear fecha y teléfono
+        const fecha = formatearFecha(registro.fecha);
+        const telefono = formatearTelefono(registro.telefono.replace(/[\s\n]/g, ''));
+        
+        // Crear fila con clases para mantener estructura
         const tr = document.createElement('tr');
         
-        // Formatear fecha para mostrarla mejor
-        let fecha = formatearFecha(registro.fecha);
-        
-        // Formatear el teléfono para asegurar que esté en formato correcto
-        let telefono = registro.telefono;
-        telefono = formatearTelefono(telefono.replace(/[\s\n]/g, ''));
-        
-        // Crear las celdas directamente en lugar de usar innerHTML
-        // Celda de nombre
-        const tdNombre = document.createElement('td');
-        tdNombre.textContent = registro.nombre;
-        tr.appendChild(tdNombre);
-        
-        // Celda de email
-        const tdEmail = document.createElement('td');
-        tdEmail.textContent = registro.email;
-        tr.appendChild(tdEmail);
-        
-        // Celda de teléfono
-        const tdTelefono = document.createElement('td');
-        tdTelefono.textContent = telefono;
-        tdTelefono.style.whiteSpace = 'nowrap';
-        tr.appendChild(tdTelefono);
-        
-        // Celda de fecha
-        const tdFecha = document.createElement('td');
-        tdFecha.textContent = fecha;
-        tdFecha.style.whiteSpace = 'nowrap';
-        tr.appendChild(tdFecha);
-        
-        // Celda de acciones
-        const tdAcciones = document.createElement('td');
-        tdAcciones.innerHTML = `
-            <button class="btn-action edit" onclick="editarRegistro(${registro.id})">
-                <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn-action delete" onclick="eliminarRegistro(${registro.id})">
-                <i class="fas fa-trash-alt"></i>
-            </button>
+        tr.innerHTML = `
+            <td class="col-nombre">${registro.nombre}</td>
+            <td class="col-email">${registro.email}</td>
+            <td class="col-telefono">${telefono}</td>
+            <td class="col-fecha">${fecha}</td>
+            <td class="col-acciones">
+                <button class="btn-action edit" onclick="editarRegistro(${registro.id})" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-action delete" onclick="eliminarRegistro(${registro.id})" title="Eliminar">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
         `;
-        tr.appendChild(tdAcciones);
         
-        // Añadir la fila completa a la tabla
         tbody.appendChild(tr);
     });
 }

@@ -43,20 +43,22 @@
             <div class="table-container">
                 <h2>Registros Guardados</h2>
                 <input type="text" id="buscar" placeholder="Buscar..." class="search-input">
-                <table id="tablaRegistros">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Aquí se mostrarán los registros -->
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="tablaRegistros">
+                        <thead>
+                            <tr>
+                                <th class="col-nombre">Nombre</th>
+                                <th class="col-email">Email</th>
+                                <th class="col-telefono">Teléfono</th>
+                                <th class="col-fecha">Fecha</th>
+                                <th class="col-acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aquí se mostrarán los registros -->
+                        </tbody>
+                    </table>
+                </div>
                 <div id="mensaje-vacio" class="mensaje-vacio">No hay registros disponibles</div>
             </div>
         </main>
