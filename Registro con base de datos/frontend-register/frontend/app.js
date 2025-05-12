@@ -8,10 +8,59 @@ const mensajeVacio = document.getElementById('mensaje-vacio');
 const buscarInput = document.getElementById('buscar');
 const notification = document.getElementById('notification');
 const notificationText = document.getElementById('notification-text');
+const telefonoInput = document.getElementById('telefono');
 
 // Variables globales
 let registros = [];
 let registroEditando = null;
+
+// Función para formatear número de teléfono al formato (000) 000-0000
+function formatearTelefono(numero) {
+    // Limpiar el número de cualquier carácter que no sea dígito
+    const numeroLimpio = numero.replace(/\D/g, '');
+    
+    // Verificar si tenemos suficientes dígitos para formatear
+    if (numeroLimpio.length === 10) {
+        return `(${numeroLimpio.substring(0, 3)}) ${numeroLimpio.substring(3, 6)}-${numeroLimpio.substring(6, 10)}`;
+    } else if (numeroLimpio.length > 10) {
+        // Si hay más dígitos, cortar a 10
+        return `(${numeroLimpio.substring(0, 3)}) ${numeroLimpio.substring(3, 6)}-${numeroLimpio.substring(6, 10)}`;
+    }
+    
+    // Si no hay suficientes dígitos, devolver como está
+    return numero;
+}
+
+// Event listener para formatear el teléfono mientras se escribe
+telefonoInput.addEventListener('input', function(e) {
+    // Obtener el valor actual y la posición del cursor
+    const input = e.target;
+    const cursorPos = input.selectionStart;
+    const valorOriginal = input.value;
+    
+    // Limpiar y formatear
+    const numeroLimpio = valorOriginal.replace(/\D/g, '');
+    let valorFormateado = numeroLimpio;
+    
+    if (numeroLimpio.length >= 1 && numeroLimpio.length <= 3) {
+        valorFormateado = `(${numeroLimpio}`;
+    } else if (numeroLimpio.length >= 4 && numeroLimpio.length <= 6) {
+        valorFormateado = `(${numeroLimpio.substring(0, 3)}) ${numeroLimpio.substring(3)}`;
+    } else if (numeroLimpio.length >= 7) {
+        valorFormateado = `(${numeroLimpio.substring(0, 3)}) ${numeroLimpio.substring(3, 6)}-${numeroLimpio.substring(6, 10)}`;
+    }
+    
+    // Calcular la nueva posición del cursor
+    const diferenciaLongitud = valorFormateado.length - valorOriginal.length;
+    
+    // Actualizar el valor
+    input.value = valorFormateado;
+    
+    // Restaurar la posición del cursor
+    if (cursorPos + diferenciaLongitud > 0) {
+        input.setSelectionRange(cursorPos + diferenciaLongitud, cursorPos + diferenciaLongitud);
+    }
+});
 
 // Función para mostrar notificaciones
 function mostrarNotificacion(mensaje, esError = false) {
@@ -79,7 +128,7 @@ function guardarRegistro(evento) {
     // Obtener datos del formulario
     const nombre = document.getElementById('nombre').value.trim();
     const email = document.getElementById('email').value.trim();
-    const telefono = document.getElementById('telefono').value.trim();
+    let telefono = document.getElementById('telefono').value.trim();
     const fecha = document.getElementById('fecha').value;
     
     // Validar datos
@@ -87,6 +136,9 @@ function guardarRegistro(evento) {
         mostrarNotificacion('Por favor, complete todos los campos', true);
         return;
     }
+    
+    // Formatear el teléfono antes de guardar
+    telefono = formatearTelefono(telefono);
     
     // Crear objeto de registro
     const nuevoRegistro = {
