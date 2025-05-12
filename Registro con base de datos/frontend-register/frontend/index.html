@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Registro DB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-database"></i> Sistema de Registro con Base de Datos</h1>
+        </header>
+        
+        <main>
+            <div class="form-container">
+                <h2>Agregar Nuevo Registro</h2>
+                <form id="registroForm">
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono:</label>
+                        <input type="tel" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </form>
+            </div>
+            
+            <div class="table-container">
+                <h2>Registros Guardados</h2>
+                <input type="text" id="buscar" placeholder="Buscar..." class="search-input">
+                <table id="tablaRegistros">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Aquí se mostrarán los registros -->
+                    </tbody>
+                </table>
+                <div id="mensaje-vacio" class="mensaje-vacio">No hay registros disponibles</div>
+            </div>
+        </main>
+        
+        <div id="notification" class="notification">
+            <span id="notification-text"></span>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html> 
